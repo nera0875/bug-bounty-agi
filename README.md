@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bug Bounty AGI - MVP
 
-## Getting Started
+AI-powered bug bounty request analysis and exploitation platform.
 
-First, run the development server:
+## 🚀 Features
 
+- **Import HAR/Burp**: Simple textarea for pasting HTTP requests
+- **AI Analysis**: Claude-powered vulnerability detection with business logic focus
+- **Vector Search**: Find similar requests using pgvector embeddings
+- **Feedback Loop**: Continuous improvement with success/error/partial feedback
+- **Export**: Markdown format ready for HackerOne/Bugcrowd
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js 15.5, React 19, TypeScript
+- **UI**: Tailwind CSS, shadcn/ui
+- **Database**: Supabase (PostgreSQL + pgvector)
+- **AI**: OpenAI (embeddings), Anthropic Claude (analysis)
+
+## 📦 Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/bug-bounty-agi.git
+cd bug-bounty-agi
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure environment variables:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Fill in your API keys:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_KEY`
+- `ANTHROPIC_API_KEY`
+- `OPENAI_API_KEY`
 
-## Learn More
+4. Run development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🗄 Database Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The app requires Supabase with pgvector extension enabled.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tables:
+- `projects`: Project management
+- `requests`: HTTP request storage with embeddings
+- `sessions`: Analysis sessions with Claude history
 
-## Deploy on Vercel
+## 🎯 Workflow
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Create Project**: Start with a new project
+2. **Import Request**: Paste HAR/Burp request
+3. **AI Analysis**: Get vulnerability suggestions
+4. **Test & Feedback**: Mark results as working/error/partial
+5. **Export**: Generate markdown report
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deployment
+
+### Vercel
+1. Connect GitHub repository
+2. Add environment variables
+3. Deploy
+
+### Supabase
+Database is already configured and hosted on Supabase cloud.
+
+## 📝 License
+
+MIT
