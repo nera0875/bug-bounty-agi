@@ -1,8 +1,9 @@
 # Bug Bounty AGI - Plan Vivant
 
 ## État actuel du projet
-**URL Production**: http://84.247.131.60:3000
-**Status**: ✅ Opérationnel - Problème 401 résolu
+**URL Production**: http://84.247.131.60:3002
+**GitHub**: https://github.com/nera0875/bug-bounty-agi
+**Status**: ✅ Opérationnel - Authentification ajoutée
 
 ## Configuration [Done]
 - **Supabase**:
@@ -54,12 +55,36 @@ npm run dev
 node test-supabase.js
 ```
 
+## Features récentes [Done]
+- ✅ **Authentification Supabase Auth** (20/01/2025)
+  - Page login/signup responsive
+  - AuthProvider pour gestion état utilisateur
+  - Protection des routes (redirection auto vers /login)
+  - Bouton déconnexion avec affichage email
+  - Middleware anti-cache pour éviter erreurs 401
+
+## Système IA avancé [Completed] (20/01/2025)
+- ✅ Schema DB pour isolation mémoire (7 nouvelles tables)
+- ✅ Parser intelligent de requêtes (compression 95%: 5KB → 200 bytes)
+- ✅ Cache multi-niveaux (L1: exact, L2: >95% similarité, L3: contexte)
+- ✅ Context builder avec mindset business logic abuse
+- ✅ API analyze-smart avec embeddings et détection patterns
+- ✅ API feedback-smart pour learning loops
+- ✅ Interface UI complète avec panel de feedback interactif
+- ✅ Migrations SQL générées et guide d'application
+
+## En cours [Doing]
+- [ ] **Mise en production système IA** (20/01/2025)
+  - [ ] Appliquer migrations dans Supabase Dashboard
+  - [ ] Configurer clés API (OpenAI, Anthropic)
+  - [ ] Créer projets test (FNAC, Booking, UberEats)
+  - [ ] Premier test end-to-end avec feedback
+
 ## Prochaines étapes [Planned]
-- [ ] Implémenter authentification utilisateur
-- [ ] Sécuriser avec service key Supabase
+- [ ] Lier les projets aux utilisateurs (user_id)
 - [ ] Réactiver RLS avec politiques par utilisateur
 - [ ] Export Markdown pour HackerOne
-- [ ] Cache embeddings pour optimisation
+- [ ] Dashboard analytics par projet avec stats IA
 - [ ] Tests de charge et monitoring
 
 ## Notes techniques
