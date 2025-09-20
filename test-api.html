@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Supabase</title>
+</head>
+<body>
+    <h1>Test API Supabase - Bug Bounty AGI</h1>
+    <button id="testBtn">Tester l'API</button>
+    <div id="result"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://clcpszhztwfhnvirexao.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsY3Bzemh6dHdmaG52aXJleGFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4NzY1NDIsImV4cCI6MjA3MTQ1MjU0Mn0.PWnQqh6lKQKKO8-9_GoyzWxKLNVxWsVWoZ-fdMPb2HA';
+
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Test en cours...</p>';
+
+            try {
+                // Test 1: Lister les projets
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/projects?select=*`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const status = response.status;
+                const data = await response.json();
+
+                if (status === 200) {
+                    resultDiv.innerHTML = `
+                        <p style="color: green;">✅ SUCCÈS! API fonctionne correctement</p>
+                        <p>Status: ${status}</p>
+                        <p>Projets trouvés: ${data.length}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <p style="color: red;">❌ ERREUR ${status}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p style="color: red;">❌ Erreur de connexion</p>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        });
+
+        // Test automatique au chargement
+        window.addEventListener('load', () => {
+            document.getElementById('testBtn').click();
+        });
+    </script>
+</body>
+</html>

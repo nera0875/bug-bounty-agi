@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/components/AuthProvider'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { PlusCircle, Target, Activity } from 'lucide-react'
+import { PlusCircle, Target, Activity, LogOut } from 'lucide-react'
 
 interface Project {
   id: string
@@ -15,13 +17,19 @@ interface Project {
 }
 
 export default function Home() {
+  const router = useRouter()
+  const { user, loading, signOut } = useAuth()
   const [projects, setProjects] = useState<Project[]>([])
   const [newProjectName, setNewProjectName] = useState('')
   const [isCreating, setIsCreating] = useState(false)
 
   useEffect(() => {
-    loadProjects()
-  }, [])
+    if (!loading && !user) {
+      router.push('/login')
+    } else if (user) {
+      loadProjects()
+    }
+  }, [user, loading, router])
 
   const loadProjects = async () => {
     const { data } = await supabase
@@ -51,6 +59,16 @@ export default function Home() {
     setIsCreating(false)
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-500">Chargement...</div>
+      </div>
+    )
+  }
+
+  if (!user) return null
+
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
@@ -59,9 +77,17 @@ export default function Home() {
             <Target className="h-8 w-8 text-gray-800" />
             <h1 className="text-3xl font-bold text-[#202123]">Bug Bounty AGI</h1>
           </div>
-          <div className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-gray-500" />
-            <span className="text-sm text-gray-500">MVP v1.0</span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-500">{user.email}</span>
+            <Button
+              onClick={signOut}
+              variant="outline"
+              size="sm"
+              className="text-gray-600 hover:text-gray-800"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Déconnexion
+            </Button>
           </div>
         </div>
 

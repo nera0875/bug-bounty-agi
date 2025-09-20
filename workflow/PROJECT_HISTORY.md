@@ -1,54 +1,68 @@
-# Bug Bounty AGI - Project History
+# Bug Bounty AGI - Plan Vivant
 
-## Plan vivant
+## État actuel du projet
+**URL Production**: http://84.247.131.60:3000
+**Status**: ✅ Opérationnel - Problème 401 résolu
 
-### Stack technique
-- **Frontend**: Next.js 15.5, React 19, TypeScript 5.9
-- **Styling**: Tailwind CSS 4.1, shadcn/ui
-- **Database**: Supabase (PostgreSQL avec pgvector)
+## Configuration [Done]
+- **Supabase**:
+  - URL: `https://clcpszhztwfhnvirexao.supabase.co`
+  - Projet ID: `clcpszhztwfhnvirexao`
+  - Clé anon: Vérifiée et fonctionnelle via MCP
+  - RLS: **Désactivé** avec politiques permissives créées
+  - Tables: `projects`, `requests`, `sessions` - toutes accessibles
+
+## Architecture MVP [Done]
+- **Frontend**: Next.js 15.5.3, React 19, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Database**: Supabase PostgreSQL avec pgvector
 - **AI**: OpenAI (embeddings), Anthropic Claude (analyse)
-- **Deployment**: Vercel (frontend), Supabase (backend)
+- **Deployment**: VPS (84.247.131.60) sur port 3000
 
-### Architecture MVP [Done]
-- ✅ Tables Supabase (projects, requests, sessions)
-- ✅ Fonction de recherche vectorielle (match_requests)
-- ✅ Page d'accueil avec liste des projets
-- ✅ Page projet avec 3 zones (Import, Chat, Résultats)
-- ✅ Parser HAR/Burp avec auto-tagging
-- ✅ API routes (analyze, feedback)
-
-### Features Core [In Progress]
+## Features Core [Done]
 - ✅ Import requêtes HAR/Burp via textarea
 - ✅ Génération embeddings avec OpenAI
 - ✅ Analyse Claude avec contexte similaire
 - ✅ Boucle de feedback (marche/erreur/partiel)
-- ⏳ Export Markdown pour HackerOne
-- ⏳ Cache embeddings pour optimisation
-- ⏳ Batch suggestions Claude
+- ✅ Parser HAR/Burp avec auto-tagging
+- ✅ Fonction de recherche vectorielle (match_requests)
+- ✅ API routes fonctionnelles (analyze, feedback)
 
-### Déploiement [Planned]
-- 🔲 Configuration variables environnement Vercel
-- 🔲 Création repository GitHub
-- 🔲 Connexion Vercel avec GitHub
-- 🔲 Configuration domaine personnalisé
+## Problèmes résolus [Done]
+- **401 Unauthorized Supabase**:
+  - RLS désactivé sur toutes les tables
+  - Politiques permissives créées pour accès anonyme
+  - Clé API vérifiée via Supabase MCP
+- **Cache navigateur**: Application rebuild complète
+- **Conflits services**: nginx, apache, docker arrêtés
 
-## Décisions techniques
+## Déploiement [Done]
+- ✅ Application en production sur VPS
+- ✅ Build de production avec Turbopack
+- ✅ Variables environnement configurées (.env.local)
+- ✅ Services inutiles désactivés
 
-### Sécurité
-- Utilisation de Supabase service key côté serveur uniquement
-- Pas de RLS activé pour le MVP (à ajouter en production)
-- Variables d'environnement pour toutes les clés API
+## Commandes utiles
+```bash
+# Production
+npm run build && npm start
 
-### Optimisations
-- Embeddings en text-embedding-3-small (1536 dimensions)
-- Claude Haiku pour réponses rapides et économiques
-- Limite de 20 requêtes similaires pour le contexte
+# Développement
+npm run dev
 
-## État actuel
-Le MVP est fonctionnel localement avec :
-- Interface complète avec les 3 zones
-- Parser de requêtes fonctionnel
-- Intégration Supabase/OpenAI/Claude prête
-- Workflow complet : Import → Analyse → Test → Feedback
+# Test Supabase
+node test-supabase.js
+```
 
-Prochaines étapes : Déploiement sur Vercel et tests en production.
+## Prochaines étapes [Planned]
+- [ ] Implémenter authentification utilisateur
+- [ ] Sécuriser avec service key Supabase
+- [ ] Réactiver RLS avec politiques par utilisateur
+- [ ] Export Markdown pour HackerOne
+- [ ] Cache embeddings pour optimisation
+- [ ] Tests de charge et monitoring
+
+## Notes techniques
+- Build avec Turbopack pour performance optimale
+- Pas de RLS pour MVP (développement rapide)
+- Politiques permissives prêtes pour migration future
